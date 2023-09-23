@@ -1,7 +1,11 @@
+using System.Linq;
+using Content.Client.Changelog;
 using Content.Client.GameTicking.Managers;
 using Content.Client.LateJoin;
 using Content.Client.Lobby.UI;
 using Content.Client.Message;
+using Content.Client.Parallax.Data;
+using Content.Client.Parallax.Managers;
 using Content.Client.Preferences;
 using Content.Client.Preferences.UI;
 using Content.Client.UserInterface.Systems.Chat;
@@ -14,6 +18,7 @@ using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Configuration;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
+using Robust.Shared.Utility;
 
 
 namespace Content.Client.Lobby
@@ -30,6 +35,7 @@ namespace Content.Client.Lobby
         [Dependency] private readonly IGameTiming _gameTiming = default!;
         [Dependency] private readonly IVoteManager _voteManager = default!;
         [Dependency] private readonly IConfigurationManager _configurationManager = default!;
+		[Dependency] private readonly IParallaxManager _parallaxManager = default!;
 
         [ViewVariables] private CharacterSetupGui? _characterSetup;
 
@@ -236,11 +242,12 @@ namespace Content.Client.Lobby
         {
             if (_gameTicker.LobbyBackground != null)
             {
-                _lobby!.Background.Texture = _resourceCache.GetResource<TextureResource>(_gameTicker.LobbyBackground );
+               _parallaxManager.LoadParallaxByName(_gameTicker.LobbyBackground);
+               _lobby!.LobbyParalax = _gameTicker.LobbyBackground;
             }
             else
             {
-                _lobby!.Background.Texture = null;
+                _lobby!.LobbyParalax = "FastSpace";
             }
 
         }
