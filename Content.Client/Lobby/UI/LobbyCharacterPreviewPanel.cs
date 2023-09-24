@@ -117,8 +117,8 @@ namespace Content.Client.Lobby.UI
                     var spriteView = new SpriteView
                     {
                         OverrideDirection = Direction.South,
-                        Scale = new Vector2(4f, 4f),
-                        MaxSize = new Vector2(112, 112),
+                        Scale = new Vector2(6f, 6f),
+                        MaxSize = new Vector2(190, 190),
                         Stretch = SpriteView.StretchMode.None,
                     };
                     spriteView.SetEntity(_previewDummy.Value);
