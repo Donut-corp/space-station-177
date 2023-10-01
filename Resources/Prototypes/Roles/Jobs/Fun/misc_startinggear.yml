@@ -133,7 +133,7 @@
     shoes: ClothingShoesBootsCombatFilled
     id: AgentIDCard
     pocket1: DoubleEmergencyOxygenTankFilled
-    pocket2: BaseUplinkRadio40TC
+    pocket2: LoneOpsUplinkRadio40TC
     belt: ClothingBeltMilitaryWebbing
   inhand:
     right hand: NukeOpsDeclarationOfWar
@@ -305,7 +305,7 @@
     head: ClothingHeadHatTophat
     ears: ClothingHeadsetService
     jumpsuit: ClothingUniformJumpsuitJacketMonkey
-    id: BartenderIDCard
+    id: PunPunIDCard
 
 # Passenger but without the ID, bag, or headset
 

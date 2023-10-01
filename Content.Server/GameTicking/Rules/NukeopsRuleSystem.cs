@@ -147,11 +147,14 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
             if (!GameTicker.IsGameRuleAdded(ruleEnt, gameRule))
                 continue;
 
-            var found = nukeops.OperativePlayers.Values.Any(v => v == opUid);
-            if (found)
+            if (_mind.TryGetMind(opUid, out var mind, out _))
             {
-                comps = (nukeops, gameRule);
-                return true;
+                var found = nukeops.OperativePlayers.Values.Any(v => v == mind);
+                if (found)
+                {
+                    comps = (nukeops, gameRule);
+                    return true;
+                }
             }
         }
 
@@ -537,14 +540,14 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
         }
     }
 
-    private void SetWinType(EntityUid uid, WinType type, NukeopsRuleComponent? component = null)
+    private void SetWinType(EntityUid uid, WinType type, NukeopsRuleComponent? component = null, bool endRound = true)
     {
         if (!Resolve(uid, ref component))
             return;
 
         component.WinType = type;
 
-        if (type == WinType.CrewMajor || type == WinType.OpsMajor)
+        if (endRound && (type == WinType.CrewMajor || type == WinType.OpsMajor))
             _roundEndSystem.EndRound();
     }
 
@@ -556,7 +559,7 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
             if (!GameTicker.IsGameRuleAdded(uid, gameRule))
                 continue;
 
-            if (!nukeops.EndsRound || nukeops.WinType == WinType.CrewMajor || nukeops.WinType == WinType.OpsMajor)
+            if (nukeops.RoundEndBehavior == RoundEndBehavior.Nothing || nukeops.WinType == WinType.CrewMajor || nukeops.WinType == WinType.OpsMajor)
                 continue;
 
             // If there are any nuclear bombs that are active, immediately return. We're not over yet.
@@ -609,7 +612,12 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
                 ? WinCondition.NukiesAbandoned
                 : WinCondition.AllNukiesDead);
 
-            SetWinType(uid, WinType.CrewMajor, nukeops);
+            SetWinType(uid, WinType.CrewMajor, nukeops, false);
+            _roundEndSystem.DoRoundEndBehavior(
+                nukeops.RoundEndBehavior, nukeops.EvacShuttleTime, nukeops.RoundEndTextSender, nukeops.RoundEndTextShuttleCall, nukeops.RoundEndTextAnnouncement);
+
+            // prevent it called multiple times
+            nukeops.RoundEndBehavior = RoundEndBehavior.Nothing;
         }
     }
 
@@ -640,7 +648,7 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
 
             // Basically copied verbatim from traitor code
             var playersPerOperative = nukeops.PlayersPerOperative;
-            var maxOperatives = nukeops.MaxOperatives;
+            var maxOperatives = nukeops.MaxOps;
 
             // Dear lord what is happening HERE.
             var everyone = new List<IPlayerSession>(ev.PlayerPool);
@@ -659,15 +667,15 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
                 }
 
                 var profile = ev.Profiles[player.UserId];
-                if (profile.AntagPreferences.Contains(nukeops.OperativeRoleProto))
+                if (profile.AntagPreferences.Contains(nukeops.OperativeRoleProto.Id))
                 {
                     prefList.Add(player);
                 }
-                if (profile.AntagPreferences.Contains(nukeops.MedicRoleProto))
+                if (profile.AntagPreferences.Contains(nukeops.MedicRoleProto.Id))
 	            {
 	                medPrefList.Add(player);
 	            }
-                if (profile.AntagPreferences.Contains(nukeops.CommanderRolePrototype))
+                if (profile.AntagPreferences.Contains(nukeops.CommanderRoleProto.Id))
                 {
                     cmdrPrefList.Add(player);
                 }
@@ -813,7 +821,7 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
 
         foreach (var (nukeops, gameRule) in EntityQuery<NukeopsRuleComponent, GameRuleComponent>())
         {
-            if (nukeops.OperativeMindPendingData.TryGetValue(uid, out var role) || !nukeops.SpawnOutpost || !nukeops.EndsRound)
+            if (nukeops.OperativeMindPendingData.TryGetValue(uid, out var role) || !nukeops.SpawnOutpost || nukeops.RoundEndBehavior == RoundEndBehavior.Nothing)
             {
                 role ??= nukeops.OperativeRoleProto;
                 _roles.MindAddRole(mindId, new NukeopsRoleComponent { PrototypeId = role });
@@ -853,8 +861,8 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
         if (!component.SpawnOutpost)
             return true;
 
-        var path = component.NukieOutpostMap;
-        var shuttlePath = component.NukieShuttleMap;
+        var path = component.OutpostMap;
+        var shuttlePath = component.ShuttleMap;
 
         var mapId = _mapManager.CreateMap();
         var options = new MapLoadOptions
@@ -911,18 +919,18 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
         {
             case 0:
                 name = Loc.GetString("nukeops-role-commander") + " " + _random.PickAndTake(component.OperativeNames[component.EliteNames]);
-                role = component.CommanderRolePrototype;
-                gear = component.CommanderStartGearPrototype;
+                role = component.CommanderRoleProto;
+                gear = component.CommanderStartGearProto;
                 break;
             case 1:
                 name = Loc.GetString("nukeops-role-agent") + " " + _random.PickAndTake(component.OperativeNames[component.NormalNames]);
                 role = component.MedicRoleProto;
-                gear = component.MedicStartGearPrototype;
+                gear = component.MedicStartGearProto;
                 break;
             default:
                 name = Loc.GetString("nukeops-role-operator") + " " + _random.PickAndTake(component.OperativeNames[component.NormalNames]);
                 role = component.OperativeRoleProto;
-                gear = component.OperativeStartGearPrototype;
+                gear = component.OperativeStartGearProto;
                 break;
         }
 
@@ -960,7 +968,7 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
         // Forgive me for hardcoding prototypes
         foreach (var (_, meta, xform) in EntityQuery<SpawnPointComponent, MetaDataComponent, TransformComponent>(true))
         {
-            if (meta.EntityPrototype?.ID != component.SpawnPointPrototype)
+            if (meta.EntityPrototype?.ID != component.SpawnPointProto.Id)
                 continue;
 
             if (xform.ParentUid != component.NukieOutpost)
@@ -1026,7 +1034,7 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
         }
         // Basically copied verbatim from traitor code
         var playersPerOperative = component.PlayersPerOperative;
-        var maxOperatives = component.MaxOperatives;
+        var maxOperatives = component.MaxOps;
 
         var playerPool = _playerManager.ServerSessions.ToList();
         var numNukies = MathHelper.Clamp(playerPool.Count / playersPerOperative, 1, maxOperatives);
@@ -1043,6 +1051,14 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
 
         //ok hardcoded value bad but so is everything else here
         _roles.MindAddRole(mindId, new NukeopsRoleComponent { PrototypeId = NukeopsId }, mind);
+        if (mind.CurrentEntity != null)
+        {
+            foreach (var (nukeops, gameRule) in EntityQuery<NukeopsRuleComponent, GameRuleComponent>())
+            {
+                nukeops.OperativePlayers.Add(mind.CharacterName!, mind.CurrentEntity.GetValueOrDefault());
+            }
+        }
+
         SetOutfitCommand.SetOutfit(mind.OwnedEntity.Value, "SyndicateOperativeGearFull", EntityManager);
     }
 
@@ -1186,9 +1202,9 @@ public sealed class NukeopsRuleSystem : GameRuleSystem<NukeopsRuleComponent>
         // TODO: Loot table or something
         foreach (var proto in new[]
                  {
-                     component.CommanderStartGearPrototype,
-                     component.MedicStartGearPrototype,
-                     component.OperativeStartGearPrototype
+                     component.CommanderStartGearProto,
+                     component.MedicStartGearProto,
+                     component.OperativeStartGearProto
                  })
         {
             component.StartingGearPrototypes.Add(proto, _prototypeManager.Index<StartingGearPrototype>(proto));
