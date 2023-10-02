@@ -11,21 +11,29 @@ public sealed partial class GameTicker
     public string? LobbyBackground { get; private set; }
 
     [ViewVariables]
-    private List<ResPath>? _lobbyBackgrounds;
+    private List<string>? _lobbyBackgrounds = new()
+    {
+        "AspidParallax",
+        "AngleStation",
+        "FastSpace",
+        "Default",
+        "BagelStation",
+        "KettleStation",
+    };
 
     private static readonly string[] WhitelistedBackgroundExtensions = new string[] {"png", "jpg", "jpeg"};
 
     private void InitializeLobbyBackground()
     {
-        _lobbyBackgrounds = _prototypeManager.EnumeratePrototypes<LobbyBackgroundPrototype>()
-            .Select(x => x.Background)
-            .Where(x => WhitelistedBackgroundExtensions.Contains(x.Extension))
-            .ToList();
+        // _lobbyBackgrounds = _prototypeManager.EnumeratePrototypes<LobbyBackgroundPrototype>()
+        //     .Select(x => x.Background)
+        //     .Where(x => WhitelistedBackgroundExtensions.Contains(x.Extension))
+        //     .ToList();
 
         RandomizeLobbyBackground();
     }
 
     private void RandomizeLobbyBackground() {
-        LobbyBackground = _lobbyBackgrounds!.Any() ? _robustRandom.Pick(_lobbyBackgrounds!).ToString() : null;
+        LobbyBackground = _lobbyBackgrounds!.Any() ? _robustRandom.Pick(_lobbyBackgrounds!) : null;
     }
 }
