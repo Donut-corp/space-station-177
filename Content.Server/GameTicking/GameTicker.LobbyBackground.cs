@@ -14,7 +14,6 @@ public sealed partial class GameTicker
     private List<string>? _lobbyBackgrounds = new()
     {
         "AspidParallax",
-        "AngleStation",
         "FastSpace",
         "Default",
         "BagelStation",
