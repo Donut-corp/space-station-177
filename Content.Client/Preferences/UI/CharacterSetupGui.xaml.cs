@@ -56,7 +56,7 @@ namespace Content.Client.Preferences.UI
             var back = new StyleBoxTexture
             {
                 Texture = panelTex,
-                Modulate = new Color(37, 37, 42)
+                Modulate = new Color(47 / 255f, 47 / 255f, 53 / 255f, 0f)
             };
             back.SetPatchMargin(StyleBox.Margin.All, 10);
 
