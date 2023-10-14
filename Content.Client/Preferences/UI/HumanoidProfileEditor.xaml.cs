@@ -42,7 +42,7 @@ namespace Content.Client.Preferences.UI
         {
             PanelOverride = new StyleBoxFlat()
             {
-                BackgroundColor = new Color(47 / 255f, 47 / 255f, 53 / 255f, 0f),
+                BackgroundColor = new Color(47, 47, 53),
                 ContentMarginTopOverride = 10,
                 ContentMarginBottomOverride = 10,
                 ContentMarginLeftOverride = 10,
