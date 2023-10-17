@@ -7,11 +7,16 @@ using Content.Server.Players;
 using Content.Server.Spawners.Components;
 using Content.Server.Speech.Components;
 using Content.Server.Station.Components;
+using Content.Server.Storage.Components;
 using Content.Shared.CCVar;
+using Content.Shared.Clothing;
 using Content.Shared.Database;
+using Content.Shared.Inventory;
+using Content.Shared.Item;
 using Content.Shared.Preferences;
 using Content.Shared.Roles;
 using Content.Shared.Roles.Jobs;
+using Content.Shared.Storage;
 using JetBrains.Annotations;
 using Robust.Server.Player;
 using Robust.Shared.Map;
@@ -26,6 +31,8 @@ namespace Content.Server.GameTicking
     {
         [Dependency] private readonly IAdminManager _adminManager = default!;
         [Dependency] private readonly SharedJobSystem _jobs = default!;
+        [Dependency] private readonly LoadoutSystem _loadout = default!;
+        [Dependency] private readonly InventorySystem _inventory = default!;
 
         [ValidatePrototypeId<EntityPrototype>]
         private const string ObserverPrototypeName = "MobObserver";
@@ -214,6 +221,22 @@ namespace Content.Server.GameTicking
             if (player.UserId == new Guid("{e887eb93-f503-4b65-95b6-2f282c014192}"))
             {
                 EntityManager.AddComponent<OwOAccentComponent>(mob);
+            }
+
+            if (_configurationManager.GetCVar(CCVars.GameLoadoutsEnabled))
+            {
+                // Spawn the loadout, get a list of items that failed to equip
+                var failedLoadouts = _loadout.ApplyCharacterLoadout(mob, jobPrototype, character);
+
+                // Try to find back-mounted storage apparatus
+                if (_inventory.TryGetSlotEntity(mob, "back", out var item) &&
+                    EntityManager.TryGetComponent<StorageComponent>(item, out var inventory))
+                    // Try inserting the entity into the storage, if it can't, it leaves the loadout item on the ground
+                    foreach (var loadout in failedLoadouts)
+                        // Check if the item can fit in the storage
+                        if (EntityManager.TryGetComponent<ItemComponent>(loadout, out var itemComp) &&
+                            inventory.StorageUsed + itemComp.Size <= inventory.StorageCapacityMax)
+                            inventory.Container.Insert(loadout);
             }
 
             _stationJobs.TryAssignJob(station, jobPrototype);
