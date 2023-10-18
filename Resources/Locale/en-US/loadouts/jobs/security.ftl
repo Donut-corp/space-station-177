@@ -1,1 +1,1 @@
-loadout-description-LoadoutSecurityShoesJackboots = A really nice, heavy, pair of black boots.
+loadout-description-LoadoutSecurityShoesJackboots = Действительно хорошая, тяжелая пара черных ботинок

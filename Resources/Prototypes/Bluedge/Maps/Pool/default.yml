@@ -1,0 +1,8 @@
+# Bluedge
+
+- type: gameMapPool
+  id: BluedgeMapPool
+  maps:
+  - Bluedge_saltern
+  - Bluedge_Marathon
+  - Bluedge_Claster

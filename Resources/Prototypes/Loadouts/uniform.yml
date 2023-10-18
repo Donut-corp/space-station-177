@@ -14,6 +14,9 @@
   id: LoadoutUniformJumpsuitColorBlack
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpsuitColorBlack
 
@@ -21,6 +24,9 @@
   id: LoadoutUniformJumpskirtColorBlack
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpskirtColorBlack
 
@@ -28,6 +34,9 @@
   id: LoadoutUniformJumpsuitColorBlue
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpsuitColorBlue
 
@@ -35,6 +44,9 @@
   id: LoadoutUniformJumpskirtColorBlue
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpskirtColorBlue
 
@@ -42,6 +54,9 @@
   id: LoadoutUniformJumpsuitColorGreen
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpsuitColorGreen
 
@@ -49,6 +64,9 @@
   id: LoadoutUniformJumpskirtColorGreen
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpskirtColorGreen
 
@@ -56,6 +74,9 @@
   id: LoadoutUniformJumpsuitColorOrange
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpsuitColorOrange
 
@@ -63,6 +84,9 @@
   id: LoadoutUniformJumpskirtColorOrange
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpskirtColorOrange
 
@@ -70,6 +94,9 @@
   id: LoadoutUniformJumpsuitColorPink
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpsuitColorPink
 
@@ -77,6 +104,9 @@
   id: LoadoutUniformJumpskirtColorPink
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpskirtColorPink
 
@@ -84,6 +114,9 @@
   id: LoadoutUniformJumpsuitColorRed
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpsuitColorRed
 
@@ -91,6 +124,9 @@
   id: LoadoutUniformJumpskirtColorRed
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpskirtColorRed
 
@@ -98,6 +134,9 @@
   id: LoadoutUniformJumpsuitColorWhite
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpsuitColorWhite
 
@@ -105,6 +144,9 @@
   id: LoadoutUniformJumpskirtColorWhite
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpskirtColorWhite
 
@@ -112,6 +154,9 @@
   id: LoadoutUniformJumpsuitColorYellow
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpsuitColorYellow
 
@@ -119,6 +164,9 @@
   id: LoadoutUniformJumpskirtColorYellow
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpskirtColorYellow
 
@@ -126,6 +174,9 @@
   id: LoadoutUniformJumpsuitColorDarkBlue
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpsuitColorDarkBlue
 
@@ -133,6 +184,9 @@
   id: LoadoutUniformJumpskirtColorDarkBlue
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpskirtColorDarkBlue
 
@@ -140,6 +194,9 @@
   id: LoadoutUniformJumpsuitColorTeal
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpsuitColorTeal
 
@@ -147,6 +204,9 @@
   id: LoadoutUniformJumpskirtColorTeal
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpskirtColorTeal
 
@@ -154,6 +214,9 @@
   id: LoadoutUniformJumpsuitColorPurple
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpsuitColorPurple
 
@@ -161,6 +224,9 @@
   id: LoadoutUniformJumpskirtColorPurple
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpskirtColorPurple
 
@@ -168,6 +234,9 @@
   id: LoadoutUniformJumpsuitColorDarkGreen
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpsuitColorDarkGreen
 
@@ -175,6 +244,9 @@
   id: LoadoutUniformJumpskirtColorDarkGreen
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpskirtColorDarkGreen
 
@@ -182,6 +254,9 @@
   id: LoadoutUniformJumpsuitColorLightBrown
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpsuitColorLightBrown
 
@@ -189,6 +264,9 @@
   id: LoadoutUniformJumpskirtColorLightBrown
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpskirtColorLightBrown
 
@@ -196,6 +274,9 @@
   id: LoadoutUniformJumpsuitColorBrown
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpsuitColorBrown
 
@@ -203,6 +284,9 @@
   id: LoadoutUniformJumpskirtColorBrown
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpskirtColorBrown
 
@@ -210,6 +294,9 @@
   id: LoadoutUniformJumpsuitColorMaroon
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpsuitColorMaroon
 
@@ -217,6 +304,9 @@
   id: LoadoutUniformJumpskirtColorMaroon
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformJumpskirtColorMaroon
 
@@ -224,6 +314,9 @@
   id: LoadoutUniformJumpsuitColorRainbow
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformColorRainbow
 
@@ -231,5 +324,8 @@
   id: LoadoutUniformJumpskirtColorRainbow
   category: Uniform
   cost: 2
+  exclusive: true
+  jobWhitelist:
+    - Passenger
   items:
     - ClothingUniformColorRainbow
