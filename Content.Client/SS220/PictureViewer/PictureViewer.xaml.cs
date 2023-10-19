@@ -19,8 +19,8 @@ public partial class PictureViewer : Control
     private ResPath _viewedPicture;
 
     private const float ScrollSensitivity = 0.075f;
-    public const float MaxZoom = 5f;
-    public const float MinZoom = 1f;
+    public const float MaxZoom = 15f;
+    public const float MinZoom = 0.333f;
     private readonly float _recenterMinimum = 0.05f;
 
     public float Zoom { get; internal set; } = MinZoom;

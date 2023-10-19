@@ -2,7 +2,7 @@
   id: Bluedge_Marathon
   mapName: 'Bluedge_Marathon'
   mapPath: /Maps/Bluedge_Marathon.yml
-  minPlayers: 35
+  minPlayers: 0
   maxPlayers: 70
   stations:
     Marathon:
