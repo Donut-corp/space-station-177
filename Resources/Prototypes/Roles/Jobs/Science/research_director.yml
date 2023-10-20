@@ -33,6 +33,6 @@
     shoes: ClothingShoesColorBrown
     id: RnDPDA
     ears: ClothingHeadsetRD
-  innerclothingskirt: ClothingUniformJumpskirtResearchDirector
+  innerClothingSkirt: ClothingUniformJumpskirtResearchDirector
   satchel: ClothingBackpackSatchelResearchDirectorFilled
   duffelbag: ClothingBackpackDuffelResearchDirectorFilled

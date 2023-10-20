@@ -36,13 +36,16 @@
   equipment:
     jumpsuit: ClothingUniformJumpsuitHoS
     back: ClothingBackpackHOSFilled
-    shoes: ClothingShoesColorBlack
+    shoes: ClothingShoesBootsCombatFilled
+    outerClothing: ClothingOuterCoatHoSTrench
+    eyes: ClothingEyesGlassesSecurity
+    head: ClothingHeadHatBeretHoS
     id: HoSPDA
     gloves: ClothingHandsGlovesCombat
     ears: ClothingHeadsetAltSecurity
     belt: ClothingBeltSecurityFilled
     pocket1: WeaponPistolMk58
     pocket2: MagazinePistol
-  innerclothingskirt: ClothingUniformJumpskirtHoS
+  innerClothingSkirt: ClothingUniformJumpskirtHoS
   satchel: ClothingBackpackSatchelHOSFilled
   duffelbag: ClothingBackpackDuffelHOSFilled

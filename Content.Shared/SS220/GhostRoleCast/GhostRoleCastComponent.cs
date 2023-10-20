@@ -1,9 +1,6 @@
 // Bluedge
 
 using Content.Shared.Actions;
-using Robust.Shared.Prototypes;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
-using Robust.Shared.Utility;
 
 namespace Content.Shared.SS220.GhostRoleCast
 {

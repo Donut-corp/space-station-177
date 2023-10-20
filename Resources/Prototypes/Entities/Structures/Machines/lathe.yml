@@ -245,6 +245,7 @@
       - Signaller
       - SignalTrigger
       - VoiceTrigger
+      - Igniter
       - PowerCellMedium
       - PowerCellHigh
       - WeaponPistolCHIMP
@@ -275,6 +276,7 @@
       - WeaponLaserCannon
       - WeaponXrayCannon
       - WeaponTaser
+      - WeaponEnergyCrossbow #SS220 Energy Crossbow
 
 - type: entity
   id: CircuitImprinter
@@ -399,7 +401,7 @@
     staticRecipes:
     - MMI
     - PositronicBrain
-    - Flash
+    - SciFlash
     - BorgModuleCable
     - BorgModuleFireExtinguisher
     - BorgModuleGPS
@@ -580,6 +582,7 @@
       - WeaponLaserCarbinePractice
       - WeaponTaser
       - WeaponXrayCannon
+      - WeaponEnergyCrossbow #SS220 Energy Crossbow
   - type: MaterialStorage
     whitelist:
       tags:
