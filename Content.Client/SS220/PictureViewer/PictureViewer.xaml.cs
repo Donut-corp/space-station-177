@@ -20,7 +20,7 @@ public partial class PictureViewer : Control
 
     private const float ScrollSensitivity = 0.075f;
     public const float MaxZoom = 15f;
-    public const float MinZoom = 0.333f;
+    public const float MinZoom = 0.3f;
     private readonly float _recenterMinimum = 0.05f;
 
     public float Zoom { get; internal set; } = MinZoom;
