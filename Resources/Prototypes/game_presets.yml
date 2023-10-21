@@ -53,18 +53,18 @@
     - Traitor
     - BasicStationEventScheduler
 
-- type: gamePreset
-  id: Deathmatch
-  alias:
-    - deathmatch
-    - dm
-  name: death-match-title
-  description: death-match-description
-  maxPlayers: 15
-  showInVote: true
+#- type: gamePreset
+#  id: Deathmatch
+#  alias:
+#    - deathmatch
+#    - dm
+#  name: death-match-title
+#  description: death-match-description
+#  maxPlayers: 15
+#  showInVote: true
   #supportedMaps: DeathMatchMapPool #SS220 DeathMatch on default maps
-  rules:
-    - DeathMatch31
+#  rules:
+#    - DeathMatch31
 
 - type: gamePreset
   id: Nukeops

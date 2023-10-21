@@ -2,6 +2,9 @@
   id: DefaultMapPool
   maps:
   - Aspid
+  - Bluedge_saltern
+  - Bluedge_Marathon
+  - Bluedge_Claster
 #  - Bagel
   - Barratry
   - CorvaxDelta
