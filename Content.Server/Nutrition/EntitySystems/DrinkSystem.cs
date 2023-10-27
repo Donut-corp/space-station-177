@@ -420,8 +420,8 @@ public sealed class DrinkSystem : EntitySystem
         if (TryComp<DnaComponent>(args.Target, out var dna))
             comp.DNAs.Add(dna.DNA);
 
-        if (!forceDrink && solution.Volume > 0)
-            args.Repeat = true;
+        /*if (!forceDrink && solution.Volume > 0)*/
+        /*args.Repeat = true;*/
     }
 
     private void AddDrinkVerb(EntityUid uid, DrinkComponent component, GetVerbsEvent<AlternativeVerb> ev)

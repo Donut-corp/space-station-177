@@ -742,6 +742,90 @@
       {
         "name": "bald",
         "directions": 4
+      },
+	  {
+        "name": "antenna_classic",
+        "directions": 4
+      },
+	  {
+        "name": "bun3_classic",
+        "directions": 4
+      },
+	  {
+        "name": "business_classic",
+        "directions": 4
+      },
+	  {
+        "name": "business2_classic",
+        "directions": 4
+      },
+	  {
+        "name": "business3_classic",
+        "directions": 4
+      },
+	  {
+        "name": "business4_classic",
+        "directions": 4
+      },
+	  {
+        "name": "emo_classic",
+        "directions": 4
+      },
+	  {
+        "name": "halfshaved_classic",
+        "directions": 4
+      },
+	  {
+        "name": "highfade_classic",
+        "directions": 4
+      },
+	  {
+        "name": "keanu_classic",
+        "directions": 4
+      },
+	  {
+        "name": "long_classic",
+        "directions": 4
+      },
+	  {
+        "name": "long2_classic",
+        "directions": 4
+      },
+	  {
+        "name": "long3_classic",
+        "directions": 4
+      },
+	  {
+        "name": "longest_classic",
+        "directions": 4
+      },
+	  {
+        "name": "longest2_classic",
+        "directions": 4
+      },
+	  {
+        "name": "longovereye_classic",
+        "directions": 4
+      },
+	  {
+        "name": "shorthair3_classic",
+        "directions": 4
+      },
+	  {
+        "name": "sidetail4_classic",
+        "directions": 4
+      },
+	  {
+        "name": "spiky_classic",
+        "directions": 4
+      },
+	  {
+        "name": "twintail_classic",
+        "directions": 4
+      },
+	  {
+        "name": "volaju_classic",
+        "directions": 4
       }
     ]
   }
