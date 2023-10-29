@@ -8,6 +8,15 @@
   markingLimits: MobArachnidMarkingLimits
   dollPrototype: MobArachnidDummy
   skinColoration: Hues
+  blockedJobs:
+   - Captain
+   - BlueShield
+   - HeadOfPersonnel
+   - Quartermaster
+   - ChiefMedicalOfficer
+   - ResearchDirector
+   - HeadOfSecurity
+   - ChiefEngineer
   maleFirstNames: names_arachnid_first
   femaleFirstNames: names_arachnid_first
   maleLastNames: names_arachnid_last # Corvax-LastnameGender

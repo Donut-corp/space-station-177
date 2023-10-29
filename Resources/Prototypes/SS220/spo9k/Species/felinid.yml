@@ -33,6 +33,7 @@
     - SeniorOfficer
     - Warden
     - Boxer
+    - ChiefEngineer
 - type: markingPoints
   id: MobFelinidMarkingLimits
   points:

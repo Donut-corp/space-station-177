@@ -8,6 +8,15 @@
   markingLimits: MobReptilianMarkingLimits
   dollPrototype: MobReptilianDummy
   skinColoration: Hues
+  blockedJobs:
+    - Captain
+    - BlueShield
+    - HeadOfPersonnel
+    - Quartermaster
+    - ChiefMedicalOfficer
+    - ResearchDirector
+    - HeadOfSecurity
+    - ChiefEngineer
   maleFirstNames: names_reptilian_male
   femaleFirstNames: names_reptilian_female
   naming: FirstDashFirst

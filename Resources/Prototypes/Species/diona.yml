@@ -8,6 +8,15 @@
   markingLimits: MobDionaMarkingLimits
   dollPrototype: MobDionaDummy
   skinColoration: Hues
+  blockedJobs:
+   - Captain
+   - BlueShield
+   - HeadOfPersonnel
+   - Quartermaster
+   - ChiefMedicalOfficer
+   - ResearchDirector
+   - HeadOfSecurity
+   - ChiefEngineer
   maleFirstNames: DionaFirst
   femaleFirstNames: DionaFirst
   maleLastNames: DionaLast # Corvax-LastnameGender

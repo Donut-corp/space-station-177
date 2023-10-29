@@ -1577,12 +1577,12 @@ namespace Content.Client.Preferences.UI
                 var sprite = entityManager.GetComponent<SpriteComponent>(dummyLoadoutItem);
                 var previewLoadout = new SpriteView
                 {
-                    Sprite = sprite,
                     Scale = new Vector2(1, 1),
                     OverrideDirection = Direction.South,
                     VerticalAlignment = VAlignment.Center,
                     SizeFlagsStretchRatio = 1
                 };
+                previewLoadout.SetEntity(dummyLoadoutItem);
 
 
                 // Create a checkbox to get the loadout

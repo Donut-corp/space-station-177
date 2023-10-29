@@ -7,3 +7,11 @@
   markingLimits: MobHumanMarkingLimits
   dollPrototype: MobDwarfDummy
   skinColoration: HumanToned
+  blockedJobs:
+   - Captain
+   - BlueShield
+   - HeadOfPersonnel
+   - Quartermaster
+   - ChiefMedicalOfficer
+   - ResearchDirector
+   - HeadOfSecurity

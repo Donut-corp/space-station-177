@@ -8,6 +8,15 @@
   markingLimits: MobSlimeMarkingLimits
   dollPrototype: MobSlimePersonDummy
   skinColoration: Hues
+  blockedJobs:
+   - Captain
+   - BlueShield
+   - HeadOfPersonnel
+   - Quartermaster
+   - ChiefMedicalOfficer
+   - ResearchDirector
+   - HeadOfSecurity
+   - ChiefEngineer
   buttScanTexture: /Textures/SS220/Interface/Butts/slime.png
 
 - type: speciesBaseSprites

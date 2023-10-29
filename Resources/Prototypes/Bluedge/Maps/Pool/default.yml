@@ -3,6 +3,6 @@
 - type: gameMapPool
   id: BluedgeMapPool
   maps:
-  - Bluedge_saltern
+  - Bluedge_Saltern
   - Bluedge_Marathon
   - Bluedge_Claster

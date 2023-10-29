@@ -8,6 +8,15 @@
   markingLimits: MobVulpkaninMarkingLimits
   dollPrototype: MobVulpkaninDummy
   skinColoration: Hues
+  blockedJobs:
+   - Captain
+   - BlueShield
+   - HeadOfPersonnel
+   - Quartermaster
+   - ChiefMedicalOfficer
+   - ResearchDirector
+   - HeadOfSecurity
+   - ChiefEngineer
 
 - type: speciesBaseSprites
   id: MobVulpkaninSprites

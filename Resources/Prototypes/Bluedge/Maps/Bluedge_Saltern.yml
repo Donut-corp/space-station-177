@@ -1,7 +1,7 @@
 - type: gameMap
-  id: Bluedge_saltern
-  mapName: 'Bluedge_saltern'
-  mapPath: /Maps/Bluedge_saltern.yml
+  id: Bluedge_Saltern
+  mapName: 'Bluedge_Saltern'
+  mapPath: /Maps/Bluedge_Saltern.yml
   minPlayers: 0
   maxPlayers: 35
   fallback: true
@@ -15,7 +15,7 @@
             !type:NanotrasenNameGenerator
             prefixCreator: '14'
         - type: StationEmergencyShuttle
-          emergencyShuttlePath: /Maps/Shuttles/corvax_emergency.yml # Corvax-EmergencyShuttle
+          emergencyShuttlePath: /Maps/Shuttles/emergency.yml # Corvax-EmergencyShuttle
         - type: StationJobs
           overflowJobs:
           - Passenger
