@@ -1,10 +1,10 @@
 - type: gameMap
   id: Saltern
-  mapName: 'Saltern'
+  mapName: 'Saltern_Bluedge'
   mapPath: /Maps/saltern.yml
   minPlayers: 0
   maxPlayers: 35
-  fallback: true
+  fallback: false
   stations:
     Saltern:
       stationProto: StandardNanotrasenStation

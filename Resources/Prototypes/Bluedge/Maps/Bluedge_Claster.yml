@@ -1,9 +1,10 @@
 - type: gameMap
-  id: Bluedge_Claster
-  mapName: 'Bluedge_Claster'
-  mapPath: /Maps/Bluedge_Claster.yml
+  id: Bluedge_Cluster
+  mapName: 'Bluedge_Cluster'
+  mapPath: /Maps/Bluedge_Cluster.yml
   minPlayers: 0
   maxPlayers: 35
+  fallback: true
   stations:
     Cluster:
       stationProto: StandardNanotrasenStation

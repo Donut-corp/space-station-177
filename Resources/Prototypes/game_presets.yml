@@ -10,7 +10,7 @@
 
 - type: gamePreset
   id: Extended
-  disableRandomEvents: true
+  disableRandomEvents: false
   alias:
   - extended
   - shittersafari
