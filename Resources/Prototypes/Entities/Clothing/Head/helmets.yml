@@ -260,6 +260,7 @@
 
 #Chitinous Helmet
 - type: entity
+  noSpawn: true
   parent: ClothingHeadBase
   id: ClothingHeadHelmetLing
   name: chitinous helmet
@@ -276,6 +277,7 @@
         Slash: 0.5
         Piercing: 0.5
         Heat: 0.9
+  - type: Unremoveable
 
 #ERT HELMETS
 #ERT Leader Helmet

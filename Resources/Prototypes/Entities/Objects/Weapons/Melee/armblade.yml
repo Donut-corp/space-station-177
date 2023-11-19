@@ -1,15 +1,15 @@
 - type: entity
-  name: arm blade
+  noSpawn: true
   parent: BaseItem
   id: ArmBlade
-  description: A grotesque blade made out of bone and flesh that cleaves through people as a hot knife through butter.
+  name: arm blade
+  description: A grotesque blade made out of bone and flesh that cleaves through people like a hot knife through butter.
   components:
   - type: Sharp
   - type: Sprite
     sprite: Objects/Weapons/Melee/armblade.rsi
     state: icon
   - type: MeleeWeapon
-    wideAnimationRotation: 90
     attackRate: 0.75
     damage:
       types:
@@ -20,5 +20,6 @@
     sprite: Objects/Weapons/Melee/armblade.rsi
   - type: Tool
     qualities:
-      - Prying
-  - type: Prying
+    - Prying
+  - type: ToolForcePowered
+  - type: Unremoveable
