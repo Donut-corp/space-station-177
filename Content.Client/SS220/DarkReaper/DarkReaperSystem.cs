@@ -5,6 +5,7 @@ using Content.Shared.Revenant.Components;
 using Content.Shared.SS220.DarkReaper;
 using Robust.Client.GameObjects;
 using Robust.Client.Player;
+using Robust.Shared.Player;
 
 namespace Content.Client.SS220.DarkReaper;
 
@@ -21,15 +22,11 @@ public sealed class DarkReaperSystem : SharedDarkReaperSystem
         base.Initialize();
 
         SubscribeLocalEvent<DarkReaperComponent, AppearanceChangeEvent>(OnAppearanceChange, after: new[] { typeof(GenericVisualizerSystem) });
-        SubscribeAllEvent<PlayerAttachedEvent>(OnPlayerAttached);
+        SubscribeAllEvent<LocalPlayerAttachedEvent>(OnPlayerAttached);
     }
 
-    private void OnPlayerAttached(PlayerAttachedEvent ev)
+    private void OnPlayerAttached(LocalPlayerAttachedEvent ev)
     {
-        var isLocal = _playerManager.LocalPlayer?.ControlledEntity == ev.Entity;
-        if (!isLocal)
-            return;
-
         var query = EntityQueryEnumerator<DarkReaperComponent>();
         while (query.MoveNext(out var uid, out var comp))
         {
@@ -61,7 +58,7 @@ public sealed class DarkReaperSystem : SharedDarkReaperSystem
 
     private void UpdateAppearance(EntityUid uid, DarkReaperComponent comp, SpriteComponent sprite, bool isPhysical, bool hasGlare, bool ghostCooldown)
     {
-        var controlled = _playerManager.LocalPlayer?.ControlledEntity;
+        var controlled = _playerManager.LocalSession?.AttachedEntity;
         var isOwn = controlled == uid;
         var canSeeOthers = controlled.HasValue &&
                           (HasComp<GhostComponent>(controlled) ||

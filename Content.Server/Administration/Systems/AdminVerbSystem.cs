@@ -5,10 +5,12 @@ using Content.Server.Administration.UI;
 using Content.Server.Disposal.Tube;
 using Content.Server.Disposal.Tube.Components;
 using Content.Server.EUI;
+using Content.Server.GameTicking;
 using Content.Server.Ghost.Roles;
 using Content.Server.Mind;
 using Content.Server.Mind.Commands;
 using Content.Server.Prayer;
+using Content.Server.Station.Systems;
 using Content.Server.Xenoarchaeology.XenoArtifacts;
 using Content.Server.Xenoarchaeology.XenoArtifacts.Triggers.Components;
 using Content.Shared.Administration;
@@ -24,11 +26,10 @@ using Content.Shared.Popups;
 using Content.Shared.Verbs;
 using Robust.Server.Console;
 using Robust.Server.GameObjects;
-using Robust.Server.Player;
 using Robust.Shared.Console;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
-using Robust.Shared.Players;
+using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 using Robust.Shared.Toolshed;
@@ -51,6 +52,7 @@ namespace Content.Server.Administration.Systems
         [Dependency] private readonly AdminSystem _adminSystem = default!;
         [Dependency] private readonly DisposalTubeSystem _disposalTubes = default!;
         [Dependency] private readonly EuiManager _euiManager = default!;
+        [Dependency] private readonly GameTicker _ticker = default!;
         [Dependency] private readonly GhostRoleSystem _ghostRoleSystem = default!;
         [Dependency] private readonly ArtifactSystem _artifactSystem = default!;
         [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
@@ -60,6 +62,8 @@ namespace Content.Server.Administration.Systems
         [Dependency] private readonly ToolshedManager _toolshed = default!;
         [Dependency] private readonly RejuvenateSystem _rejuvenate = default!;
         [Dependency] private readonly SharedPopupSystem _popup = default!;
+        [Dependency] private readonly StationSystem _stations = default!;
+        [Dependency] private readonly StationSpawningSystem _spawning = default!;
 
         private readonly Dictionary<ICommonSession, EditSolutionsEui> _openSolutionUis = new();
 
@@ -144,23 +148,92 @@ namespace Content.Server.Administration.Systems
                     });
 
                     // Erase
-                    args.Verbs.Add(new Verb
+                    if (_adminManager.HasAdminFlag(player, AdminFlags.Ban)) // SS220 Mentor buttons restrict
                     {
-                        Text = Loc.GetString("admin-verbs-erase"),
-                        Message = Loc.GetString("admin-verbs-erase-description"),
+                        args.Verbs.Add(new Verb
+                        {
+                            Text = Loc.GetString("admin-verbs-erase"),
+                            Message = Loc.GetString("admin-verbs-erase-description"),
+                            Category = VerbCategory.Admin,
+                            Icon = new SpriteSpecifier.Texture(new("/Textures/Interface/VerbIcons/delete_transparent.svg.192dpi.png")),
+                            Act = () =>
+                            {
+                                _adminSystem.Erase(targetActor.PlayerSession);
+                            },
+                            Impact = LogImpact.Extreme,
+                            ConfirmationPopup = true
+                        });
+                    }
+
+                // Respawn
+                    args.Verbs.Add(new Verb()
+                    {
+                        Text = Loc.GetString("admin-player-actions-respawn"),
                         Category = VerbCategory.Admin,
-                        Icon = new SpriteSpecifier.Texture(new("/Textures/Interface/VerbIcons/delete_transparent.svg.192dpi.png")),
                         Act = () =>
                         {
-                            _adminSystem.Erase(targetActor.PlayerSession);
+                            _console.ExecuteCommand(player, $"respawn {targetActor.PlayerSession.Name}");
                         },
-                        Impact = LogImpact.Extreme,
-                        ConfirmationPopup = true
+                        ConfirmationPopup = true,
+                        // No logimpact as the command does it internally.
                     });
+
+                    // Spawn - Like respawn but on the spot.
+                    args.Verbs.Add(new Verb()
+                    {
+                        Text = Loc.GetString("admin-player-actions-spawn"),
+                        Category = VerbCategory.Admin,
+                        Act = () =>
+                        {
+                            if (!_transformSystem.TryGetMapOrGridCoordinates(args.Target, out var coords))
+                            {
+                                _popup.PopupEntity(Loc.GetString("admin-player-spawn-failed"), args.User, args.User);
+                                return;
+                            }
+
+                            var stationUid = _stations.GetOwningStation(args.Target);
+
+                            var profile = _ticker.GetPlayerProfile(targetActor.PlayerSession);
+                            var mobUid = _spawning.SpawnPlayerMob(coords.Value, null, profile, stationUid);
+                            var targetMind = _mindSystem.GetMind(args.Target);
+
+                            if (targetMind != null)
+                            {
+                                _mindSystem.TransferTo(targetMind.Value, mobUid);
+                            }
+                        },
+                        ConfirmationPopup = true,
+                        Impact = LogImpact.High,
+                    });
+
+                    // Clone - Spawn but without the mind transfer, also spawns at the user's coordinates not the target's
+                    if (_adminManager.HasAdminFlag(player, AdminFlags.Ban)) 
+                    {
+                        args.Verbs.Add(new Verb()
+                        {
+                            Text = Loc.GetString("admin-player-actions-clone"),
+                            Category = VerbCategory.Admin,
+                            Act = () =>
+                            {
+                                if (!_transformSystem.TryGetMapOrGridCoordinates(args.User, out var coords))
+                                {
+                                    _popup.PopupEntity(Loc.GetString("admin-player-spawn-failed"), args.User, args.User);
+                                    return;
+                                }
+
+                                var stationUid = _stations.GetOwningStation(args.Target);
+
+                                var profile = _ticker.GetPlayerProfile(targetActor.PlayerSession);
+                                _spawning.SpawnPlayerMob(coords.Value, null, profile, stationUid);
+                            },
+                            ConfirmationPopup = true,
+                            Impact = LogImpact.High,
+                        });
+                    }
                 }
 
                 // Admin Logs
-                if (_adminManager.HasAdminFlag(player, AdminFlags.Logs))
+                if (_adminManager.HasAdminFlag(player, AdminFlags.Logs)) // SS220 Mentor buttons restrict
                 {
                     Verb logsVerbEntity = new()
                     {
@@ -212,21 +285,6 @@ namespace Content.Server.Administration.Systems
                     Impact = LogImpact.Low
                 });
 
-                // Respawn
-                if (HasComp<ActorComponent>(args.Target))
-                {
-                    args.Verbs.Add(new Verb()
-                    {
-                        Text = Loc.GetString("admin-player-actions-respawn"),
-                        Category = VerbCategory.Admin,
-                        Act = () =>
-                        {
-                            _console.ExecuteCommand(player, $"respawn {actor.PlayerSession.Name}");
-                        },
-                        ConfirmationPopup = true,
-                        // No logimpact as the command does it internally.
-                    });
-                }
             }
         }
 
@@ -286,7 +344,8 @@ namespace Content.Server.Administration.Systems
             }
 
             // XenoArcheology
-            if (_adminManager.IsAdmin(player) && TryComp<ArtifactComponent>(args.Target, out var artifact))
+            if (_adminManager.IsAdmin(player) && TryComp<ArtifactComponent>(args.Target, out var artifact)
+                && _adminManager.HasAdminFlag(player, AdminFlags.Ban)) // SS220 Mentor buttons restrict
             {
                 // make artifact always active (by adding timer trigger)
                 args.Verbs.Add(new Verb()
@@ -427,7 +486,7 @@ namespace Content.Server.Administration.Systems
             }
         }
 
-        public void OpenEditSolutionsEui(IPlayerSession session, EntityUid uid)
+        public void OpenEditSolutionsEui(ICommonSession session, EntityUid uid)
         {
             if (session.AttachedEntity == null)
                 return;

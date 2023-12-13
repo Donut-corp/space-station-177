@@ -528,6 +528,12 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("bytea")
                         .HasColumnName("hwid");
 
+                    b.Property<int>("ServerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0)
+                        .HasColumnName("server_id");
+
                     b.Property<DateTime>("Time")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("time");
@@ -544,6 +550,9 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.HasKey("Id")
                         .HasName("PK_connection_log");
 
+                    b.HasIndex("ServerId")
+                        .HasDatabaseName("IX_connection_log_server_id");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("connection_log", null, t =>
@@ -559,18 +568,9 @@ namespace Content.Server.Database.Migrations.Postgres
                         .HasColumnType("uuid")
                         .HasColumnName("discord_players_id");
 
-                    b.Property<string>("CKey")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("ckey");
-
-                    b.Property<string>("DiscordId")
-                        .HasColumnType("text")
+                    b.Property<decimal?>("DiscordId")
+                        .HasColumnType("numeric(20,0)")
                         .HasColumnName("discord_id");
-
-                    b.Property<string>("DiscordName")
-                        .HasColumnType("text")
-                        .HasColumnName("discord_name");
 
                     b.Property<string>("HashKey")
                         .IsRequired()
@@ -588,10 +588,11 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.HasAlternateKey("SS14Id")
                         .HasName("ak_discord_players_ss14_id");
 
-                    b.HasIndex("Id")
+                    b.HasIndex("DiscordId")
                         .IsUnique();
 
-                    b.HasIndex("CKey", "DiscordId");
+                    b.HasIndex("Id")
+                        .IsUnique();
 
                     b.ToTable("discord_players", (string)null);
                 });
@@ -1544,6 +1545,18 @@ namespace Content.Server.Database.Migrations.Postgres
                     b.Navigation("Profile");
                 });
 
+            modelBuilder.Entity("Content.Server.Database.ConnectionLog", b =>
+                {
+                    b.HasOne("Content.Server.Database.Server", "Server")
+                        .WithMany("ConnectionLogs")
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired()
+                        .HasConstraintName("FK_connection_log_server_server_id");
+
+                    b.Navigation("Server");
+                });
+
             modelBuilder.Entity("Content.Server.Database.Job", b =>
                 {
                     b.HasOne("Content.Server.Database.Profile", "Profile")
@@ -1803,6 +1816,8 @@ namespace Content.Server.Database.Migrations.Postgres
 
             modelBuilder.Entity("Content.Server.Database.Server", b =>
                 {
+                    b.Navigation("ConnectionLogs");
+
                     b.Navigation("Rounds");
                 });
 

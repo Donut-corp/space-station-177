@@ -6,6 +6,8 @@ using Content.Shared.Pulling;
 using Content.Shared.Pulling.Components;
 using Content.Shared.Teleportation.Components;
 using Content.Shared.Verbs;
+using Robust.Shared.Audio;
+using Robust.Shared.Audio.Systems;
 using Robust.Shared.Map;
 using Robust.Shared.Network;
 using Robust.Shared.Physics.Dynamics;
@@ -13,6 +15,8 @@ using Robust.Shared.Physics.Events;
 using Robust.Shared.Player;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
+using Content.Shared.Anomaly;
+using Content.Shared.Anomaly.Components;
 
 namespace Content.Shared.Teleportation.Systems;
 
@@ -28,6 +32,8 @@ public abstract class SharedPortalSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedPullingSystem _pulling = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
+
+    [Dependency] private readonly SharedAnomalySystem _anomalySystem = default!;
 
     private const string PortalFixture = "portalFixture";
     private const string ProjectileFixture = "projectile";
@@ -131,7 +137,7 @@ public abstract class SharedPortalSystem : EntitySystem
                 // if target is a portal, signal that they shouldn't be immediately portaled back
                 var timeout = EnsureComp<PortalTimeoutComponent>(subject);
                 timeout.EnteredPortal = uid;
-                Dirty(timeout);
+                Dirty(subject, timeout);
             }
 
             TeleportEntity(uid, subject, Transform(target).Coordinates, target);
@@ -142,7 +148,8 @@ public abstract class SharedPortalSystem : EntitySystem
             return;
 
         // no linked entity--teleport randomly
-        TeleportRandomly(uid, subject, component);
+        if (component.RandomTeleport)
+            TeleportRandomly(uid, subject, component);
     }
 
     private void OnEndCollide(EntityUid uid, PortalComponent component, ref EndCollideEvent args)
@@ -205,6 +212,10 @@ public abstract class SharedPortalSystem : EntitySystem
         LogTeleport(portal, subject, Transform(subject).Coordinates, target);
 
         _transform.SetCoordinates(subject, target);
+
+        //SS220-rnd-reb
+        if (HasComp<AnomalyComponent>(subject))
+           _anomalySystem.DoAnomalySupercriticalEvent(subject);
 
         if (!playSound)
             return;

@@ -498,6 +498,12 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("BLOB")
                         .HasColumnName("hwid");
 
+                    b.Property<int>("ServerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(0)
+                        .HasColumnName("server_id");
+
                     b.Property<DateTime>("Time")
                         .HasColumnType("TEXT")
                         .HasColumnName("time");
@@ -514,6 +520,9 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.HasKey("Id")
                         .HasName("PK_connection_log");
 
+                    b.HasIndex("ServerId")
+                        .HasDatabaseName("IX_connection_log_server_id");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("connection_log", (string)null);
@@ -526,18 +535,9 @@ namespace Content.Server.Database.Migrations.Sqlite
                         .HasColumnType("TEXT")
                         .HasColumnName("discord_players_id");
 
-                    b.Property<string>("CKey")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ckey");
-
-                    b.Property<string>("DiscordId")
-                        .HasColumnType("TEXT")
+                    b.Property<ulong?>("DiscordId")
+                        .HasColumnType("INTEGER")
                         .HasColumnName("discord_id");
-
-                    b.Property<string>("DiscordName")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("discord_name");
 
                     b.Property<string>("HashKey")
                         .IsRequired()
@@ -555,10 +555,11 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.HasAlternateKey("SS14Id")
                         .HasName("ak_discord_players_ss14_id");
 
-                    b.HasIndex("Id")
+                    b.HasIndex("DiscordId")
                         .IsUnique();
 
-                    b.HasIndex("CKey", "DiscordId");
+                    b.HasIndex("Id")
+                        .IsUnique();
 
                     b.ToTable("discord_players", (string)null);
                 });
@@ -1475,6 +1476,18 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.Navigation("Profile");
                 });
 
+            modelBuilder.Entity("Content.Server.Database.ConnectionLog", b =>
+                {
+                    b.HasOne("Content.Server.Database.Server", "Server")
+                        .WithMany("ConnectionLogs")
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired()
+                        .HasConstraintName("FK_connection_log_server_server_id");
+
+                    b.Navigation("Server");
+                });
+
             modelBuilder.Entity("Content.Server.Database.Job", b =>
                 {
                     b.HasOne("Content.Server.Database.Profile", "Profile")
@@ -1734,6 +1747,8 @@ namespace Content.Server.Database.Migrations.Sqlite
 
             modelBuilder.Entity("Content.Server.Database.Server", b =>
                 {
+                    b.Navigation("ConnectionLogs");
+
                     b.Navigation("Rounds");
                 });
 

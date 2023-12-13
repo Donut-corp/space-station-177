@@ -8,6 +8,7 @@ using Content.Server.Emoting.Systems;
 using Content.Server.Inventory;
 using Content.Server.Speech.EntitySystems;
 using Content.Shared.Bed.Sleep;
+using Content.Shared.Cloning;
 using Content.Shared.Damage;
 using Content.Shared.Humanoid;
 using Content.Shared.Inventory;
@@ -42,6 +43,16 @@ namespace Content.Server.Zombies
         [Dependency] private readonly TagSystem _tag = default!;
 
         private const string ZombifyableTag = "ZombifyableByMelee";
+
+        public const SlotFlags ProtectiveSlots =
+            SlotFlags.FEET |
+            SlotFlags.HEAD |
+            SlotFlags.EYES |
+            SlotFlags.GLOVES |
+            SlotFlags.MASK |
+            SlotFlags.NECK |
+            SlotFlags.INNERCLOTHING |
+            SlotFlags.OUTERCLOTHING;
 
         public override void Initialize()
         {
@@ -169,37 +180,36 @@ namespace Content.Server.Zombies
 
         private float GetZombieInfectionChance(EntityUid uid, ZombieComponent component)
         {
-            var baseChance = component.MaxZombieInfectionChance;
-
-            if (!TryComp<InventoryComponent>(uid, out var inventoryComponent))
-                return baseChance;
-
-            var enumerator =
-                new InventorySystem.ContainerSlotEnumerator(uid, inventoryComponent.TemplateId, _protoManager, _inv,
-                    SlotFlags.FEET |
-                    SlotFlags.HEAD |
-                    SlotFlags.EYES |
-                    SlotFlags.GLOVES |
-                    SlotFlags.MASK |
-                    SlotFlags.NECK |
-                    SlotFlags.INNERCLOTHING |
-                    SlotFlags.OUTERCLOTHING);
-
-            var items = 0f;
-            var total = 0f;
-            while (enumerator.MoveNext(out var con))
-            {
-                total++;
-
-                if (con.ContainedEntity != null)
-                    items++;
-            }
-
             var max = component.MaxZombieInfectionChance;
+
+            if (!_inventory.TryGetContainerSlotEnumerator(uid, out var enumerator, ProtectiveSlots))
+                return max;
+
+            //SS220-zomb_reb
+            DamageSpecifier ratingArmor = new()
+            {
+                DamageDict = new()
+                {
+                    { "Slash", 100 }
+                }
+            };
+
+            var ev = new DamageModifyEvent(ratingArmor, null);
+            RaiseLocalEvent(uid, ev);
+            ratingArmor = ev.Damage;
+            ratingArmor.DamageDict.TryGetValue("Slash", out var armorBonus);
+
+            // Everyone knows that when it comes to zombies, socks & sandals provide just as much protection as an
+            // armored vest. Maybe these should be weighted per-item. I.e. some kind of coverage/protection component.
+            // Or at the very least different weights per slot.
+
             var min = component.MinZombieInfectionChance;
             //gets a value between the max and min based on how many items the entity is wearing
-            var chance = (max-min) * ((total - items)/total) + min;
+            var chance = max * (armorBonus.Float() / 100);
+            if (chance < min)
+                return min;
             return chance;
+            //SS220-zomb_reb
         }
 
         private void OnMeleeHit(EntityUid uid, ZombieComponent component, MeleeHitEvent args)
@@ -227,14 +237,14 @@ namespace Content.Server.Zombies
                 }
                 else
                 {
-                    if (!HasComp<ZombieImmuneComponent>(entity) && _random.Prob(GetZombieInfectionChance(entity, component)))
+                    if (!HasComp<ZombieImmuneComponent>(entity) && !HasComp<NonSpreaderZombieComponent>(args.User) && _random.Prob(GetZombieInfectionChance(entity, component)))
                     {
                         EnsureComp<PendingZombieComponent>(entity);
                         EnsureComp<ZombifyOnDeathComponent>(entity);
                     }
                 }
 
-                if (_mobState.IsIncapacitated(entity, mobState) && !HasComp<ZombieComponent>(entity))
+                if (_mobState.IsIncapacitated(entity, mobState) && !HasComp<ZombieComponent>(entity) && !HasComp<ZombieImmuneComponent>(entity))
                 {
                     ZombifyEntity(entity);
                     args.BonusDamage = -args.BaseDamage;

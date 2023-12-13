@@ -185,7 +185,8 @@ namespace Content.Server.Database
             string userName,
             IPAddress address,
             ImmutableArray<byte> hwId,
-            ConnectionDenyReason? denied);
+            ConnectionDenyReason? denied,
+            int serverId);
 
         Task AddServerBanHitsAsync(int connection, IEnumerable<ServerBanDef> bans);
 
@@ -279,7 +280,7 @@ namespace Content.Server.Database
 
         #region Discord
 
-        Task<(bool, DiscordPlayer?)> IsValidateDiscord(Guid playerId);
+        Task<DiscordPlayer?> GetAccountDiscordLink(Guid playerId);
         Task InsertDiscord(DiscordPlayer player);
 
         #endregion
@@ -521,10 +522,11 @@ namespace Content.Server.Database
             string userName,
             IPAddress address,
             ImmutableArray<byte> hwId,
-            ConnectionDenyReason? denied)
+            ConnectionDenyReason? denied,
+            int serverId)
         {
             DbWriteOpsMetric.Inc();
-            return RunDbCommand(() => _db.AddConnectionLogAsync(userId, userName, address, hwId, denied));
+            return RunDbCommand(() => _db.AddConnectionLogAsync(userId, userName, address, hwId, denied, serverId));
         }
 
         public Task AddServerBanHitsAsync(int connection, IEnumerable<ServerBanDef> bans)
@@ -901,10 +903,10 @@ namespace Content.Server.Database
             return enumerable;
         }
 
-        public Task<(bool, DiscordPlayer?)> IsValidateDiscord(Guid playerId)
+        public Task<DiscordPlayer?> GetAccountDiscordLink(Guid playerId)
         {
             DbReadOpsMetric.Inc();
-            return _db.IsValidateDiscord(playerId);
+            return _db.GetAccountDiscordLink(playerId);
         }
 
         public Task InsertDiscord(DiscordPlayer player)

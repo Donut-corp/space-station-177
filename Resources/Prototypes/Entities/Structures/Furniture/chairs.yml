@@ -67,6 +67,15 @@
     node: chair
 
 - type: entity
+  name: chair
+  id: ChairGreyscale
+  parent: Chair
+  suffix: White
+  components:
+  - type: Sprite
+    state: chair-greyscale
+
+- type: entity
   name: stool
   id: Stool
   parent: SeatBase
@@ -309,7 +318,7 @@
       map: ["foldedLayer"]
       visible: false
   - type: Item
-    size: 50
+    size: Huge
   - type: Appearance
   - type: MeleeWeapon
     damage:
@@ -343,4 +352,4 @@
   - type: Rotatable
   - type: Sprite
     state: steel-bench
- 
+

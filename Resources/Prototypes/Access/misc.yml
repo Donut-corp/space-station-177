@@ -7,6 +7,7 @@
   - HeadOfPersonnel
   - ChiefEngineer
   - ChiefMedicalOfficer
+  - Paramedic
   - HeadOfSecurity
   - ResearchDirector
   - Command
@@ -14,6 +15,7 @@
   - Detective
   - Armory
   - Brig
+  - Lawyer
   - Engineering
   - Medical
   - Quartermaster

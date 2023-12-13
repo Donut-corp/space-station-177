@@ -587,7 +587,8 @@ namespace Content.Server.Database
             string userName,
             IPAddress address,
             ImmutableArray<byte> hwId,
-            ConnectionDenyReason? denied);
+            ConnectionDenyReason? denied,
+            int serverId);
 
         public async Task AddServerBanHitsAsync(int connection, IEnumerable<ServerBanDef> bans)
         {
@@ -1393,22 +1394,11 @@ INSERT INTO player_round (players_id, rounds_id) VALUES ({players[player]}, {id}
 
         #region Discord_SS220
 
-        /// <summary>
-        /// Уже прошел проверку или нет
-        /// </summary>
-        /// <param name="playerId">Player GUID</param>
-        public async Task<(bool, DiscordPlayer?)> IsValidateDiscord(Guid playerId)
+        public async Task<DiscordPlayer?> GetAccountDiscordLink(Guid playerId)
         {
             await using var db = await GetDb();
 
-            var discordPlayer = await db.DbContext.DiscordPlayers.AsNoTracking().SingleOrDefaultAsync(p => p.SS14Id == playerId);
-
-            if (discordPlayer == null)
-                return (false, null);
-            if (!string.IsNullOrEmpty(discordPlayer.DiscordId))
-                return (true, null);
-
-            return (false, discordPlayer);
+            return await db.DbContext.DiscordPlayers.AsNoTracking().FirstOrDefaultAsync(p => p.SS14Id == playerId);
         }
 
         public async Task InsertDiscord(DiscordPlayer discordPlayer)

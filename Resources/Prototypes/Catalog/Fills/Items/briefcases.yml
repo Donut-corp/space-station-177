@@ -15,6 +15,12 @@
   parent: BriefcaseSyndie
   suffix: SniperBundle
   components:
+  - type: Item
+    size: Ginormous
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,6,3
   - type: StorageFill
     contents:
       - id: WeaponSniperHristov
@@ -32,5 +38,8 @@
   - type: StorageFill
     contents:
       - id: ClothingEyesGlassesSunglasses
-      - id: SpaceCash1000
-        amount: 5
+      # SS220-lobbying-bundle-fake-money begin
+      - id: ClothingUniformJumpsuitLawyerBlackSyndieLobbyingBundle
+      - id: ClothingShoesBootsLaceup
+      - id: SpaceCashFake50000
+      # SS220-lobbying-bundle-fake-money end

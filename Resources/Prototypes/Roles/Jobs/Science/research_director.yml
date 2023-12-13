@@ -19,9 +19,8 @@
   - Command
   - Maintenance
   - ResearchDirector
+  - Brig
   special:
-  - !type:AddImplantSpecial
-    implants: [ MindShieldImplant ]
   - !type:AddComponentSpecial
     components:
       - type: CommandStaff
