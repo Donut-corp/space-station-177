@@ -232,7 +232,6 @@
   - type: GroupExamine
 
 - type: entity
-  noSpawn: true
   parent: ClothingOuterBaseLarge
   id: ClothingOuterArmorChangeling
   name: chitinous armor

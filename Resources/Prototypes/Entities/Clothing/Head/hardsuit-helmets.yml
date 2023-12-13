@@ -327,10 +327,6 @@
   - type: PressureProtection
     highPressureMultiplier: 0.45
     lowPressureMultiplier: 1000
-  - type: Unremoveable
-  # it's just skin, so nettles can penetrate
-  - type: Tag
-    tags: [ ]
   - type: Armor
     modifiers:
       coefficients:

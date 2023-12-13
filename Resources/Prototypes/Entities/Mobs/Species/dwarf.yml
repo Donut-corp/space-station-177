@@ -56,7 +56,6 @@
     accent: dwarf
   - type: Speech
     speechSounds: Bass
-  - type: Absorbable
 
 - type: entity
   parent: BaseSpeciesDummy

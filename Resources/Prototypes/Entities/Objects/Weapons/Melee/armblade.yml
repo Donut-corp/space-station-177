@@ -1,5 +1,4 @@
 - type: entity
-  noSpawn: true
   parent: BaseItem
   id: ArmBlade
   name: arm blade
@@ -22,4 +21,3 @@
     qualities:
     - Prying
   - type: ToolForcePowered
-  - type: Unremoveable
