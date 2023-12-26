@@ -1,4 +1,4 @@
-﻿<Control xmlns="https://spacestation14.io"
+<Control xmlns="https://spacestation14.io"
          xmlns:pllax="clr-namespace:Content.Client.Parallax"
          xmlns:clog="clr-namespace:Content.Client.Changelog">
     <pllax:ParallaxControl />
@@ -37,9 +37,6 @@
                     Text="{Loc 'main-menu-quit-button'}"
                     TextAlign="Center"
                     StyleIdentifier="mainMenu" />
-            <clog:ChangelogButton
-                Name="ChangelogButton"
-                Access="Public"/>
         </BoxContainer>
     </LayoutContainer>
 </Control>

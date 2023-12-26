@@ -6,13 +6,12 @@ using Content.Client.Humanoid;
 using Content.Client.Inventory;
 using Content.Client.Preferences;
 using Content.Client.UserInterface.Controls;
-using Content.Shared.Clothing;
-using Content.Shared.Clothing.Components;
 using Content.Shared.GameTicking;
 using Content.Shared.Humanoid.Prototypes;
 using Content.Shared.Inventory;
-using Content.Shared.Loadouts;
 using Content.Shared.Preferences;
+using Content.Shared.Clothing;
+using Content.Shared.Clothing.Components;
 using Content.Shared.Roles;
 using Robust.Client.GameObjects;
 using Robust.Client.UserInterface;
@@ -20,6 +19,7 @@ using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Map;
 using Robust.Shared.Prototypes;
 using static Robust.Client.UserInterface.Controls.BoxContainer;
+using Content.Shared.Loadout;
 
 namespace Content.Client.Lobby.UI
 {
@@ -121,9 +121,9 @@ namespace Content.Client.Lobby.UI
                     var spriteView = new SpriteView
                     {
                         OverrideDirection = Direction.South,
-                        Scale = new Vector2(6f, 6f),
-                        MaxSize = new Vector2(190, 190),
-                        Stretch = SpriteView.StretchMode.None,
+                        Scale = new Vector2(4f, 4f),
+                        MaxSize = new Vector2(112, 112),
+                        Stretch = SpriteView.StretchMode.Fill,
                     };
                     spriteView.SetEntity(_previewDummy.Value);
                     _viewBox.AddChild(spriteView);
@@ -169,10 +169,76 @@ namespace Content.Client.Lobby.UI
 
         public static void GiveDummyLoadoutItems(EntityUid dummy, HumanoidCharacterProfile profile)
         {
-            var highPriorityJobId = profile.JobPriorities.FirstOrDefault(j => j.Value == JobPriority.High).Key;
-            var highPriorityJob = IoCManager.Resolve<IPrototypeManager>().Index<JobPrototype>(highPriorityJobId ?? SharedGameTicker.FallbackOverflowJob);
+            var protoMan = IoCManager.Resolve<IPrototypeManager>();
+            var entMan = IoCManager.Resolve<IEntityManager>();
+            var handsSystem = entMan.System<HandsSystem>();
+            var invSystem = entMan.System<ClientInventorySystem>();
 
-            EntitySystem.Get<LoadoutSystem>().ApplyCharacterLoadout(dummy, highPriorityJob, profile);
+            var highPriorityJobId = profile.JobPriorities.FirstOrDefault(p => p.Value == JobPriority.High).Key;
+
+            foreach (var loadoutId in profile.LoadoutPreferences)
+            {
+
+                if (!(highPriorityJobId is null) && (!protoMan.TryIndex<JobPrototype>(highPriorityJobId, out var job) || !job.DoLoadout))
+                    return;
+
+                if (!protoMan.TryIndex<LoadoutPrototype>(loadoutId, out var loadout))
+                    continue;
+
+                var isWhitelisted = loadout.WhitelistJobs != null &&
+                                    !loadout.WhitelistJobs.Contains(highPriorityJobId ?? "");
+                var isBlacklisted = highPriorityJobId != null &&
+                                    loadout.BlacklistJobs != null &&
+                                    loadout.BlacklistJobs.Contains(highPriorityJobId);
+                var isSpeciesRestricted = loadout.SpeciesRestrictions != null &&
+                                          loadout.SpeciesRestrictions.Contains(profile.Species);
+
+                if (isWhitelisted || isBlacklisted || isSpeciesRestricted)
+                    continue;
+
+                var entity = entMan.SpawnEntity(loadout.Prototype, MapCoordinates.Nullspace);
+
+                // Take in hand if not clothes
+                if (!entMan.TryGetComponent<ClothingComponent>(entity, out var clothing))
+                {
+                    handsSystem.TryPickup(dummy, entity);
+                    continue;
+                }
+
+                // Automatically search empty slot for clothes to equip
+                string? firstSlotName = null;
+                var isEquipped = false;
+                if (invSystem.TryGetContainerSlotEnumerator(dummy, out var enumerator))
+                {
+                    while (enumerator.NextItem(out var item, out var slot))
+                    {
+                        if (!clothing.Slots.HasFlag(slot.SlotFlags))
+                            continue;
+
+                        firstSlotName ??= slot.Name;
+
+                        if (invSystem.TryGetSlotEntity(dummy, slot.Name, out var _))
+                            continue;
+
+                        if (loadout.Exclusive && invSystem.TryUnequip(dummy, firstSlotName, out var removedItem, true, true))
+                            entMan.DeleteEntity(removedItem.Value);
+
+                        if (!invSystem.TryEquip(dummy, entity, slot.Name, true, true))
+                            continue;
+
+                        isEquipped = true;
+                        break;
+                    }
+                }
+
+                if (isEquipped || firstSlotName == null)
+                    continue;
+
+                // Force equip to first valid clothes slot even there already item
+                if (invSystem.TryUnequip(dummy, firstSlotName, out var unequippedItem, true, true))
+                    entMan.DeleteEntity(unequippedItem.Value);
+                invSystem.TryEquip(dummy, entity, firstSlotName, true, true);
+            }
         }
     }
 }

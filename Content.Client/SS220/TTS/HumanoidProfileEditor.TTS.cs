@@ -1,4 +1,4 @@
-﻿// Bluedge
+// Bluedge
 
 using System.Linq;
 using Content.Client.Corvax.Sponsors;
@@ -75,6 +75,7 @@ public sealed partial class HumanoidProfileEditor
         }
     }
 
+    [Dependency] private readonly IRobustRandom _random = default!;
     private void PlayTTS()
     {
         if (_previewDummy is null || Profile is null)

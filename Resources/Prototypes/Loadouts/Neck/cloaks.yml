@@ -1,0 +1,103 @@
+- type: loadout
+  id: LoadoutNeckClothingNeckCloakTrans
+  category: loadout-category-neck
+  cost: 1
+  exclusive: true
+  prototype: ClothingNeckCloakTrans
+
+- type: loadout
+  id: LoadoutNeckClothingNeckCloakCap
+  category: loadout-category-neck
+  cost: 2
+  exclusive: true
+  whitelistJobs:
+    - Captain
+  prototype: ClothingNeckCloakCap
+
+- type: loadout
+  id: LoadoutNeckClothingNeckCloakHos
+  category: loadout-category-neck
+  cost: 2
+  exclusive: true
+  whitelistJobs:
+    - HeadOfSecurity
+  prototype: ClothingNeckCloakHos
+
+- type: loadout
+  id: LoadoutNeckClothingNeckCloakCe
+  category: loadout-category-neck
+  cost: 2
+  exclusive: true
+  whitelistJobs:
+    - ChiefEngineer
+  prototype: ClothingNeckCloakCe
+
+- type: loadout
+  id: LoadoutNeckClothingNeckCloakRd
+  category: loadout-category-neck
+  cost: 2
+  exclusive: true
+  whitelistJobs:
+    - ResearchDirector
+  prototype: ClothingNeckCloakRd
+
+- type: loadout
+  id: LoadoutNeckClothingNeckCloakQm
+  category: loadout-category-neck
+  cost: 2
+  exclusive: true
+  whitelistJobs:
+    - Quartermaster
+  prototype: ClothingNeckCloakQm
+
+- type: loadout
+  id: LoadoutNeckClothingNeckCloakHop
+  category: loadout-category-neck
+  cost: 2
+  exclusive: true
+  whitelistJobs:
+    - HeadOfPersonnel
+    - Captain
+  prototype: ClothingNeckCloakHop
+
+- type: loadout
+  id: LoadoutNeckClothingCloakCmo
+  category: loadout-category-neck
+  cost: 2
+  exclusive: true
+  whitelistJobs:
+    - ChiefMedicalOfficer
+  prototype: ClothingCloakCmo
+
+- type: loadout
+  id: LoadoutNeckClothingNeckCloakNanotrasen
+  category: loadout-category-neck
+  cost: 4
+  exclusive: true
+  prototype: ClothingNeckCloakNanotrasen
+
+- type: loadout
+  id: LoadoutNeckClothingNeckCloakGoliathCloak
+  category: loadout-category-neck
+  cost: 4
+  exclusive: true
+  
+  prototype: ClothingNeckCloakGoliathCloak
+
+- type: loadout
+  id: LoadoutNeckClothingNeckCloakMoth
+  category: loadout-category-neck
+  cost: 4
+  exclusive: true
+  prototype: ClothingNeckCloakMoth
+
+- type: loadout
+  id: LoadoutNeckClothingNeckCloakMiner
+  category: loadout-category-neck
+  cost: 4
+  exclusive: true
+  whitelistJobs:
+    - SalvageSpecialist
+    - CargoTechnician
+    - Quartermaster
+  prototype: ClothingNeckCloakMiner

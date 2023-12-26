@@ -1,6 +1,6 @@
 using Robust.Shared.Prototypes;
 
-namespace Content.Shared.Loadouts;
+namespace Content.Shared.Loadout;
 
 [Prototype("loadoutCategory")]
 public sealed class LoadoutCategoryPrototype : IPrototype
