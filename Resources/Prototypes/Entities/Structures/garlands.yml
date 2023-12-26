@@ -1,0 +1,104 @@
+# С любовью от Маланисы
+
+- type: entity
+  id: BaseGarland
+  name: гирлянда
+  description: Лампочки, соединенные проводом, подарят уют и волшебство вашему помещению. 
+  abstract: true
+  placement:
+    mode: SnapgridCenter  
+  components:
+  - type: MeleeSound
+    soundGroups:
+      Brute:
+        path:
+          "/Audio/Effects/glass_hit.ogg"
+  - type: WallMount
+  - type: Sprite
+    drawdepth: WallMountedItems
+  - type: Appearance
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 50
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+  - type: Clickable
+  - type: InteractionOutline
+  - type: Physics
+    bodyType: Static
+    canCollide: false
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb {}
+  - type: Damageable
+    damageContainer: Inorganic
+    damageModifierSet: Metallic
+  - type: PointLight
+    radius: 1.3
+
+- type: entity
+  parent: BaseGarland
+  id: GarlandLeft
+  name: Гирлянда 
+  suffix: левая
+  components:
+  - type: Sprite
+    sprite: Structures/Wallmounts/garlands/garlands.rsi
+    layers:
+    - state: wire
+    - state: garland_left
+      shader: unshaded    
+    - state: garland_unshade_left
+      shader: unshaded
+
+- type: entity
+  parent: BaseGarland
+  id: GarlandRight
+  name: Гирлянда 
+  suffix: правая
+  components:
+  - type: Sprite
+    sprite: Structures/Wallmounts/garlands/garlands.rsi
+    layers:
+    - state: wire
+    - state: garland_right
+      shader: unshaded    
+    - state: garland_unshade_right
+      shader: unshaded
+
+# colored
+
+- type: entity
+  parent: BaseGarland
+  id: ColorGarlandLeft
+  name: Гирлянда 
+  suffix: левая
+  components:
+  - type: Sprite
+    sprite: Structures/Wallmounts/garlands/color_garlands.rsi
+    layers:
+    - state: wire
+    - state: garland_left
+      shader: unshaded    
+    - state: garland_unshade_left
+      shader: unshaded
+
+- type: entity
+  parent: BaseGarland
+  id: ColorGarlandRight
+  name: Гирлянда 
+  suffix: правая
+  components:
+  - type: Sprite
+    sprite: Structures/Wallmounts/garlands/color_garlands.rsi
+    layers:
+    - state: wire
+    - state: garland_right
+      shader: unshaded    
+    - state: garland_unshade_right
+      shader: unshaded
