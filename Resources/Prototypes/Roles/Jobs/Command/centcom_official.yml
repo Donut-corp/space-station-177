@@ -11,6 +11,9 @@
   radioBold: true
   accessGroups:
   - AllAccess
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant ]
 
 - type: startingGear
   id: CentcomGear
