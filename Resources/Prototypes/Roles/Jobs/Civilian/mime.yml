@@ -6,7 +6,7 @@
   requirements:
     - !type:DepartmentTimeRequirement
       department: Civilian
-      time: 18000 # SS220-RoleTime
+      time: 9000 # SS220-RoleTime
   startingGear: MimeGear
   icon: "JobIconMime"
   supervisors: job-supervisors-hop

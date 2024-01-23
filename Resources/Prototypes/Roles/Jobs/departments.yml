@@ -59,6 +59,7 @@
   roles:
   - AtmosphericTechnician
   - ChiefEngineer
+  - SeniorEngineer
   - StationEngineer
   - TechnicalAssistant
 
@@ -74,6 +75,7 @@
   - MedicalIntern
   - Psychologist
   - Paramedic
+  - SeniorPhysician
 
 - type: department
   id: Security
@@ -85,10 +87,10 @@
   - HeadOfSecurity
   - SecurityCadet
   - SecurityOfficer
+  - SeniorOfficer
   - Detective
   - Warden
   - Brigmedic
-  - SecurityPilot
 
 - type: department
   id: Science
@@ -97,6 +99,7 @@
   color: "#D381C9"
   roles:
   - ResearchDirector
+  - SeniorResearcher
   - Scientist
   - ResearchAssistant
 
@@ -120,5 +123,3 @@
   color: "#A9A9A9"
   roles:
   - GhostRole
-  primary: false
-  weight: -100
