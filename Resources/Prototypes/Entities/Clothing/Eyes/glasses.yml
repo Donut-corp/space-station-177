@@ -63,6 +63,9 @@
   - type: Clothing
     sprite: Clothing/Eyes/Glasses/meson.rsi
   - type: EyeProtection
+  - type: Tag
+    tags:
+    - SecDogWearable # Roxi
 
 - type: entity
   parent: ClothingEyesBase
@@ -78,6 +81,20 @@
   - type: Tag
     tags:
     - HamsterWearable
+    - WhitelistChameleon
+
+- type: entity
+  parent: ClothingEyesBase
+  id: ClothingEyesGlassesJensen
+  name: jensen glasses
+  description: A pair of yellow tinted folding glasses. You never asked for these.
+  components:
+  - type: Sprite
+    sprite: Clothing/Eyes/Glasses/jensen.rsi
+  - type: Clothing
+    sprite: Clothing/Eyes/Glasses/jensen.rsi
+  - type: Tag
+    tags:
     - WhitelistChameleon
 
 - type: entity
@@ -113,7 +130,7 @@
   parent: ClothingEyesBase
   id: ClothingEyesGlassesSunglasses
   name: sun glasses
-  description: Useful both for security and cargonia.
+  description: A pair of black sunglasses.
   components:
   - type: Sprite
     sprite: Clothing/Eyes/Glasses/sunglasses.rsi
@@ -126,12 +143,13 @@
     tags:
     - HamsterWearable
     - WhitelistChameleon
+    - SecDogWearable # Roxi
 
 - type: entity
   parent: ClothingEyesBase
   id: ClothingEyesGlassesSecurity
-  name: security sunglasses
-  description: Strangely ancient technology used to help provide rudimentary eye cover. Enhanced shielding blocks many flashes. Often worn by budget security officers.
+  name: security glasses
+  description: Upgraded sunglasses that provide flash immunity and a security HUD.
   components:
   - type: Sprite
     sprite: Clothing/Eyes/Glasses/secglasses.rsi
@@ -144,6 +162,7 @@
     tags:
     - HamsterWearable
     - WhitelistChameleon
+    - SecDogWearable # Roxi
   - type: GuideHelp
     guides:
     - Security

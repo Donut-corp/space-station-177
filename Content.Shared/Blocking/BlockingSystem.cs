@@ -21,6 +21,7 @@ using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
+using Content.Shared.Weapons.Reflect;
 
 namespace Content.Shared.Blocking;
 
@@ -149,6 +150,15 @@ public sealed partial class BlockingSystem : EntitySystem
         if (component.IsBlocking)
             return false;
 
+        //ss220-revorkblock
+        //A temporary crutch, I'll fix it after the New Year's.
+        if (TryComp(item, out ReflectComponent? useDelay))
+        {
+            if (!useDelay.Enabled)
+                return false;
+        }
+        //ss220-revorkblock end
+
         var xform = Transform(user);
 
         var shieldName = Name(item);
@@ -177,7 +187,7 @@ public sealed partial class BlockingSystem : EntitySystem
             var playerTileRef = xform.Coordinates.GetTileRef();
             if (playerTileRef != null)
             {
-                var intersecting = _lookup.GetEntitiesIntersecting(playerTileRef.Value, 0f);
+                var intersecting = _lookup.GetLocalEntitiesIntersecting(playerTileRef.Value, 0f);
                 var mobQuery = GetEntityQuery<MobStateComponent>();
                 foreach (var uid in intersecting)
                 {

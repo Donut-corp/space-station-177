@@ -27,7 +27,8 @@
   equipment:
     jumpsuit: ClothingUniformJumpsuitDetective
     back: ClothingBackpackSecurityFilledDetective
-    shoes: ClothingShoesColorBlack
+    shoes: ClothingShoesBootsCombatFilled
+    eyes: ClothingEyesGlassesSecurity #ss-220-GlassesSecurity
     head: ClothingHeadHatFedoraBrown
     id: DetectivePDA
     ears: ClothingHeadsetSecurity
